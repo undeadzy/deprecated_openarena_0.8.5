@@ -252,8 +252,17 @@ PROTOCOL
 ==============================================================
 */
 
+#ifdef OPEN_ARENA
+//Open Arena up to 0.7.6 used 68
+//Open Arena 0.7.7 uses 69
+//Open Arena 0.8.0 uses protocol 70
+//Open Arena 0.8.1+ uses protocol 71 (Shouldn't have been bumped but was it anyway)
+#define	PROTOCOL_VERSION	71
+#define PROTOCOL_LEGACY_VERSION	71
+#else
 #define	PROTOCOL_VERSION	71
 #define PROTOCOL_LEGACY_VERSION	68
+#endif
 // 1.31 - 67
 
 // maintain a list of compatible protocols for demo playing
@@ -265,7 +274,11 @@ extern int demo_protocols[];
 #endif
 // override on command line, config files etc.
 #ifndef MASTER_SERVER_NAME
+#  ifdef OPEN_ARENA
+#    define MASTER_SERVER_NAME	"dpmaster.deathmask.net"
+#  else
 #define MASTER_SERVER_NAME	"master.quake3arena.com"
+#  endif
 #endif
 
 #ifndef STANDALONE

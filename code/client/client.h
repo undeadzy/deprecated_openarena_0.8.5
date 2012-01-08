@@ -388,6 +388,10 @@ extern	cvar_t	*cl_anglespeedkey;
 extern	cvar_t	*cl_sensitivity;
 extern	cvar_t	*cl_freelook;
 
+#ifdef OPEN_ARENA
+extern	cvar_t	*cl_altTabMinimize;
+#endif
+
 extern	cvar_t	*cl_mouseAccel;
 extern	cvar_t	*cl_mouseAccelOffset;
 extern	cvar_t	*cl_mouseAccelStyle;
@@ -423,6 +427,12 @@ extern	cvar_t	*cl_lanForcePackets;
 extern	cvar_t	*cl_autoRecordDemo;
 
 extern	cvar_t	*cl_consoleKeys;
+
+#ifdef OPEN_ARENA
+extern	cvar_t	*cl_consoleType;
+extern	cvar_t	*cl_consoleColor[4];
+extern	cvar_t	*cl_consoleHeight;
+#endif
 
 #ifdef USE_MUMBLE
 extern	cvar_t	*cl_useMumble;
@@ -546,6 +556,10 @@ void Con_PageDown( void );
 void Con_Top( void );
 void Con_Bottom( void );
 void Con_Close( void );
+
+#ifdef OPEN_ARENA
+void Con_SetFrac( const float conFrac );
+#endif
 
 void CL_LoadConsoleHistory( void );
 void CL_SaveConsoleHistory( void );

@@ -1,0 +1,8 @@
+From: undeadzy <q3urt.undead@gmail.com>
+Subject: [PATCH] t/openarena/essential
+
+Essential patches for OpenArena.  Basically everything from 0.8.x-22 except bloom or
+anything renderer related.  The renderer is going through a lot of changes lately
+anyway.
+
+Signed-off-by: undeadzy <q3urt.undead@gmail.com>

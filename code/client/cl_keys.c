@@ -1185,9 +1185,29 @@ void CL_KeyDownEvent( int key, unsigned time )
 		return;
 	}
 
+#ifdef OPEN_ARENA
+	if ( cl_altTabMinimize->integer && keys[K_ALT].down && key == K_TAB )
+	{
+		// Emulate as if CL_ParseBinding was called.
+		Cbuf_AddText("minimize\n");
+		return;
+	}
+#endif
+
 	// console key is hardcoded, so the user can never unbind it
 	if( key == K_CONSOLE || ( keys[K_SHIFT].down && key == K_ESCAPE ) )
 	{
+#ifdef OPEN_ARENA
+		Con_SetFrac(cl_consoleHeight->value);
+		if(key == K_CONSOLE) {
+			if(keys[K_ALT].down) {
+				Con_SetFrac(1.0f);
+			}
+			else if (keys[K_SHIFT].down) {
+				Con_SetFrac(.25f);
+			}
+		}
+#endif
 		Con_ToggleConsole_f ();
 		Key_ClearStates ();
 		return;

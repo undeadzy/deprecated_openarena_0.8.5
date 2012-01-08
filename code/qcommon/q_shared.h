@@ -26,6 +26,17 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 // q_shared.h -- included first by ALL program modules.
 // A user mod should never modify this file
 
+#ifdef OPEN_ARENA
+#  define PRODUCT_NAME			"ioq3+oa"
+#  define BASEGAME			"baseoa"
+#  define CLIENT_WINDOW_TITLE     	"OpenArena"
+#  define CLIENT_WINDOW_MIN_TITLE 	"OA"
+#  define GAMENAME_FOR_MASTER		"Quake3Arena" // No servers show up if you use "openarena"
+#  define HOMEPATH_NAME_UNIX		".openarena"
+#  define HOMEPATH_NAME_WIN		"OpenArena"
+#  define HOMEPATH_NAME_MACOSX		HOMEPATH_NAME_WIN
+#  define LEGACY_PROTOCOL		1	// OA 0.8.5 still uses the old protocol
+#else
 #ifdef STANDALONE
   #define PRODUCT_NAME			"iofoo3"
   #define BASEGAME			"foobar"
@@ -46,6 +57,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
   #define HOMEPATH_NAME_MACOSX		HOMEPATH_NAME_WIN
   #define GAMENAME_FOR_MASTER		"Quake3Arena"
   #define LEGACY_PROTOCOL
+#endif
 #endif
 
 // Heartbeat for dpmaster protocol. You shouldn't change this unless you know what you're doing
@@ -387,6 +399,10 @@ extern	vec4_t		colorLtGrey;
 extern	vec4_t		colorMdGrey;
 extern	vec4_t		colorDkGrey;
 
+#ifdef OPEN_ARENA
+#  define	NUMBER_OF_COLORS	9
+#endif
+
 #define Q_COLOR_ESCAPE	'^'
 #define Q_IsColorString(p)	((p) && *(p) == Q_COLOR_ESCAPE && *((p)+1) && isalnum(*((p)+1))) // ^[0-9a-zA-Z]
 
@@ -398,6 +414,9 @@ extern	vec4_t		colorDkGrey;
 #define COLOR_CYAN	'5'
 #define COLOR_MAGENTA	'6'
 #define COLOR_WHITE	'7'
+#ifdef OPEN_ARENA
+#  define	COLOR_MENU	'8'
+#endif
 #define ColorIndex(c)	(((c) - '0') & 0x07)
 
 #define S_COLOR_BLACK	"^0"
@@ -409,7 +428,11 @@ extern	vec4_t		colorDkGrey;
 #define S_COLOR_MAGENTA	"^6"
 #define S_COLOR_WHITE	"^7"
 
+#ifdef OPEN_ARENA
+extern vec4_t	g_color_table[NUMBER_OF_COLORS];
+#else
 extern vec4_t	g_color_table[8];
+#endif
 
 #define	MAKERGB( v, r, g, b ) v[0]=r;v[1]=g;v[2]=b
 #define	MAKERGBA( v, r, g, b, a ) v[0]=r;v[1]=g;v[2]=b;v[3]=a

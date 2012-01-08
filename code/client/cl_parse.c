@@ -414,12 +414,26 @@ void CL_SystemInfoChanged( void ) {
 			Cvar_Get(key, value, CVAR_SERVER_CREATED | CVAR_ROM);
 		else
 		{
+#ifdef OPEN_ARENA
+			// I have added exceptions for sv_fps, pmove_fixed and pmove_msec.
+			// These should really be corrected in the game logic code, but they are required
+			// for a lot of mods and not all can be changed.
+			// vq3 uses pmoved_fixed, pmove_msec and g_synchronousClients.
+			// Most unlagged mods use sv_fps too.
+			if(!(cvar_flags & (CVAR_SYSTEMINFO | CVAR_SERVER_CREATED))
+			    && Q_stricmp(key, "sv_fps")
+			    && Q_stricmp(key, "pmove_fixed")
+			    && Q_stricmp(key, "pmove_msec")
+			    && Q_stricmp(key, "g_synchronousClients"))
+			{
+#else
 			// If this cvar may not be modified by a server discard the value.
 			if(!(cvar_flags & (CVAR_SYSTEMINFO | CVAR_SERVER_CREATED | CVAR_USER_CREATED)))
 			{
 #ifndef STANDALONE
 				if(Q_stricmp(key, "g_synchronousClients") && Q_stricmp(key, "pmove_fixed") &&
 				   Q_stricmp(key, "pmove_msec"))
+#endif
 #endif
 				{
 					Com_Printf(S_COLOR_YELLOW "WARNING: server is not allowed to set %s=%s\n", key, value);

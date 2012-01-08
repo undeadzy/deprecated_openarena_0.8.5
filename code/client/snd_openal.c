@@ -430,7 +430,11 @@ qboolean S_AL_BufferInit( void )
 	numSfx = 0;
 
 	// Load the default sound, and lock it
+#ifdef OPEN_ARENA
+	default_sfx = S_AL_BufferFind("sound/misc/silence.wav");
+#else
 	default_sfx = S_AL_BufferFind("sound/feedback/hit.wav");
+#endif
 	S_AL_BufferUse(default_sfx);
 	knownSfx[default_sfx].isLocked = qtrue;
 

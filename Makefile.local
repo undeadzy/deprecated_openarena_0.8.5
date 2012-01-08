@@ -1,0 +1,35 @@
+#This file defines the standard variables used by Open Arena.
+
+COPYDIR="/usr/local/games/openarena"
+
+#We want openAL
+#Next we want to bind openAL on runtime. SDL sound will be used if openAL is not installed
+USE_OPENAL=1
+USE_OPENAL_DLOPEN=1
+
+USE_VOIP=0
+USE_MUMBLE=0
+
+#We want vorbis support!
+USE_CODEC_VORBIS=1
+
+#Open Arena is a standalone game
+BUILD_STANDALONE = 1
+BUILD_CLIENT     = 1
+
+# I don't build the server though
+BUILD_SERVER     = 0
+
+# Doesn't work yet (final copy disabled in Makefile)
+BUILD_CLIENT_SMP = 0
+
+#We don't want to build the game logic... only the engine
+BUILD_GAME_QVM   = 0
+BUILD_GAME_SO    = 0
+BUILD_MISSIONPACK= 0
+
+# Always define this to take advantage of OA specific code
+CFLAGS += -DOPEN_ARENA=1
+
+# Verbose builds
+#V=1

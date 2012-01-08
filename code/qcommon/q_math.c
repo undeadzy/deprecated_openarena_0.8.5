@@ -47,7 +47,11 @@ vec4_t		colorLtGrey	= {0.75, 0.75, 0.75, 1};
 vec4_t		colorMdGrey	= {0.5, 0.5, 0.5, 1};
 vec4_t		colorDkGrey	= {0.25, 0.25, 0.25, 1};
 
+#ifdef OPEN_ARENA
+vec4_t	g_color_table[9] =
+#else
 vec4_t	g_color_table[8] =
+#endif
 	{
 	{0.0, 0.0, 0.0, 1.0},
 	{1.0, 0.0, 0.0, 1.0},
@@ -57,6 +61,9 @@ vec4_t	g_color_table[8] =
 	{0.0, 1.0, 1.0, 1.0},
 	{1.0, 0.0, 1.0, 1.0},
 	{1.0, 1.0, 1.0, 1.0},
+#ifdef OPEN_ARENA
+	{1.00f, 0.43f, 0.00f, 1.00f},
+#endif
 	};
 
 

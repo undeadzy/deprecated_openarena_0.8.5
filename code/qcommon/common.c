@@ -32,13 +32,21 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 #endif
 
 int demo_protocols[] =
+#ifdef OPEN_ARENA
+{ 66, 67, 68, 69, 70, 71, 0 };
+#else
 { 67, 66, 0 };
+#endif
 
 #define MAX_NUM_ARGVS	50
 
 #define MIN_DEDICATED_COMHUNKMEGS 1
 #define MIN_COMHUNKMEGS		56
+#ifdef OPEN_ARENA
+#  define DEF_COMHUNKMEGS		128
+#else
 #define DEF_COMHUNKMEGS		64
+#endif
 #define DEF_COMZONEMEGS		24
 #define DEF_COMHUNKMEGS_S	XSTRING(DEF_COMHUNKMEGS)
 #define DEF_COMZONEMEGS_S	XSTRING(DEF_COMZONEMEGS)
@@ -2640,7 +2648,11 @@ void Com_Init( char *commandLine ) {
 	char	*s;
 	int	qport;
 
+#ifdef OPEN_ARENA
+	Com_Printf( "%s %s [build: %s %s]\n", Q3_VERSION, PLATFORM_STRING, __DATE__, __TIME__ );
+#else
 	Com_Printf( "%s %s %s\n", Q3_VERSION, PLATFORM_STRING, __DATE__ );
+#endif
 
 	if ( setjmp (abortframe) ) {
 		Sys_Error ("Error during initialization");

@@ -298,8 +298,10 @@ static void LAN_GetServerInfo( int source, int n, char *buf, int buflen ) {
 		Info_SetValueForKey( info, "nettype", va("%i",server->netType));
 		Info_SetValueForKey( info, "addr", NET_AdrToStringwPort(server->adr));
 		Info_SetValueForKey( info, "punkbuster", va("%i", server->punkbuster));
+#ifdef OPEN_ARENA
 		Info_SetValueForKey( info, "g_needpass", va("%i", server->g_needpass));
 		Info_SetValueForKey( info, "g_humanplayers", va("%i", server->g_humanplayers));
+#endif
 		Q_strncpyz(buf, info, buflen);
 	} else {
 		if (buf) {

@@ -173,6 +173,11 @@ static void SV_Map_f( void ) {
 	// force latched values to get set
 	Cvar_Get ("g_gametype", "0", CVAR_SERVERINFO | CVAR_USERINFO | CVAR_LATCH );
 
+#ifdef OPEN_ARENA
+	//Notice that we have done a restart
+	sv_dorestart->integer = 0;
+#endif
+
 	cmd = Cmd_Argv(0);
 	if( Q_stricmpn( cmd, "sp", 2 ) == 0 ) {
 		Cvar_SetValue( "g_gametype", GT_SINGLE_PLAYER );
@@ -262,9 +267,16 @@ static void SV_MapRestart_f( void ) {
 
 	// check for changes in variables that can't just be restarted
 	// check for maxclients change
+#ifdef OPEN_ARENA
+	if ( sv_maxclients->modified || sv_gametype->modified || sv_dorestart->integer ) {
+#else
 	if ( sv_maxclients->modified || sv_gametype->modified ) {
+#endif
 		char	mapname[MAX_QPATH];
 
+#ifdef OPEN_ARENA
+		sv_dorestart->integer = 0;
+#endif
 		Com_Printf( "variable change -- restarting.\n" );
 		// restart the map the slow way
 		Q_strncpyz( mapname, Cvar_VariableString( "mapname" ), sizeof( mapname ) );

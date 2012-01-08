@@ -1351,7 +1351,11 @@ static void SV_VerifyPaks_f( client_t *cl ) {
 			cl->lastSnapshotTime = 0;
 			cl->state = CS_ACTIVE;
 			SV_SendClientSnapshot( cl );
+#ifdef OPEN_ARENA
+			SV_DropClient( cl, "Invalid .PK3 files. Enabling auto-download might help." );
+#else
 			SV_DropClient( cl, "Unpure client detected. Invalid .PK3 files referenced!" );
+#endif
 		}
 	}
 }

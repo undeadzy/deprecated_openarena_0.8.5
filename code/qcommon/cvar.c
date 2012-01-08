@@ -28,7 +28,11 @@ cvar_t		*cvar_vars = NULL;
 cvar_t		*cvar_cheats;
 int			cvar_modifiedFlags;
 
+#ifdef OPEN_ARENA
+#  define	MAX_CVARS	2048
+#else
 #define	MAX_CVARS	1024
+#endif
 cvar_t		cvar_indexes[MAX_CVARS];
 int			cvar_numIndexes;
 
@@ -342,7 +346,11 @@ cvar_t *Cvar_Get( const char *var_name, const char *var_value, int flags ) {
 			Z_Free( var->resetString );
 			var->resetString = CopyString( var_value );
 
+#ifdef OPEN_ARENA
+			if( (flags & CVAR_ROM) && !(flags & CVAR_ARCHIVE) )
+#else
 			if(flags & CVAR_ROM)
+#endif
 			{
 				// this variable was set by the user,
 				// so force it to value given by the engine.

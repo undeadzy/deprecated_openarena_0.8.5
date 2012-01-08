@@ -81,6 +81,10 @@ cvar_t	*cl_forceavidemo;
 cvar_t	*cl_freelook;
 cvar_t	*cl_sensitivity;
 
+#ifdef OPEN_ARENA
+cvar_t	*cl_altTabMinimize;
+#endif
+
 cvar_t	*cl_mouseAccel;
 cvar_t	*cl_mouseAccelOffset;
 cvar_t	*cl_mouseAccelStyle;
@@ -117,6 +121,12 @@ cvar_t	*cl_lanForcePackets;
 cvar_t	*cl_guidServerUniq;
 
 cvar_t	*cl_consoleKeys;
+
+#ifdef OPEN_ARENA
+cvar_t	*cl_consoleType;
+cvar_t	*cl_consoleColor[4];
+cvar_t	*cl_consoleHeight;
+#endif
 
 clientActive_t		cl;
 clientConnection_t	clc;
@@ -426,6 +436,10 @@ void CL_CaptureVoip(void)
 			dontCapture = qtrue;  // not connected to a server.
 		else if (!clc.voipEnabled)
 			dontCapture = qtrue;  // server doesn't support VoIP.
+#ifdef OPEN_ARENA
+		else if ( Cvar_VariableValue( "g_gametype" ) == GT_SINGLE_PLAYER || Cvar_VariableValue("ui_singlePlayerActive"))
+			dontCapture = qtrue;  // single player game.
+#endif
 		else if (clc.demoplaying)
 			dontCapture = qtrue;  // playing back a demo.
 		else if ( cl_voip->integer == 0 )
@@ -3480,6 +3494,10 @@ void CL_Init( void ) {
 	cl_mouseAccel = Cvar_Get ("cl_mouseAccel", "0", CVAR_ARCHIVE);
 	cl_freelook = Cvar_Get( "cl_freelook", "1", CVAR_ARCHIVE );
 
+#ifdef OPEN_ARENA
+	cl_altTabMinimize = Cvar_Get ("cl_altTabMinimize", "1", CVAR_ARCHIVE);
+#endif
+
 	// 0: legacy mouse acceleration
 	// 1: new implementation
 	cl_mouseAccelStyle = Cvar_Get( "cl_mouseAccelStyle", "0", CVAR_ARCHIVE );
@@ -3540,6 +3558,14 @@ void CL_Init( void ) {
 	// ~ and `, as keys and characters
 	cl_consoleKeys = Cvar_Get( "cl_consoleKeys", "~ ` 0x7e 0x60", CVAR_ARCHIVE);
 
+#ifdef OPEN_ARENA
+	cl_consoleType = Cvar_Get( "cl_consoleType", "0", CVAR_ARCHIVE );
+	cl_consoleColor[0] = Cvar_Get( "cl_consoleColorRed", "1", CVAR_ARCHIVE );
+	cl_consoleColor[1] = Cvar_Get( "cl_consoleColorGreen", "0", CVAR_ARCHIVE );
+	cl_consoleColor[2] = Cvar_Get( "cl_consoleColorBlue", "0", CVAR_ARCHIVE );
+	cl_consoleColor[3] = Cvar_Get( "cl_consoleColorAlpha", "0.8", CVAR_ARCHIVE );
+	cl_consoleHeight = Cvar_Get("cl_consoleHeight", "0.5", CVAR_ARCHIVE);
+#endif
 	// userinfo
 	Cvar_Get ("name", "UnnamedPlayer", CVAR_USERINFO | CVAR_ARCHIVE );
 	Cvar_Get ("rate", "25000", CVAR_USERINFO | CVAR_ARCHIVE );
@@ -3722,8 +3748,10 @@ static void CL_SetServerInfo(serverInfo_t *server, const char *info, int ping) {
 			server->minPing = atoi(Info_ValueForKey(info, "minping"));
 			server->maxPing = atoi(Info_ValueForKey(info, "maxping"));
 			server->punkbuster = atoi(Info_ValueForKey(info, "punkbuster"));
+#ifdef OPEN_ARENA
 			server->g_humanplayers = atoi(Info_ValueForKey(info, "g_humanplayers"));
 			server->g_needpass = atoi(Info_ValueForKey(info, "g_needpass"));
+#endif
 		}
 		server->ping = ping;
 	}
@@ -4037,7 +4065,11 @@ void CL_ServerStatusResponse( netadr_t from, msg_t *msg ) {
 
 	if (serverStatus->print) {
 		Com_Printf("\nPlayers:\n");
+#ifdef OPEN_ARENA
+		Com_Printf("score: ping: name:\n");
+#else
 		Com_Printf("num: score: ping: name:\n");
+#endif
 	}
 	for (i = 0, s = MSG_ReadStringLine( msg ); *s; s = MSG_ReadStringLine( msg ), i++) {
 
@@ -4054,7 +4086,11 @@ void CL_ServerStatusResponse( netadr_t from, msg_t *msg ) {
 				s++;
 			else
 				s = "unknown";
+#ifdef OPEN_ARENA
+			Com_Printf("%-2d %-3d    %-3d   %s\n", i, score, ping, s );
+#else
 			Com_Printf("%-2d   %-3d    %-3d   %s\n", i, score, ping, s );
+#endif
 		}
 	}
 	len = strlen(serverStatus->string);
