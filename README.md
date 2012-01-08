@@ -1,11 +1,14 @@
+Undeadzy's version of OpenArena
+===============================
+
 This is ioquake3 with Open Arena modifications for OA 0.8.5.
 
-These don't match exactly what upstream has.  I cherry pick changes in order
-to make it more maintainable.  For instance, I don't care about branding or
-icons.  I don't want to have to maintain that.
+These changes don't match exactly what upstream has.  I cherry pick changes in
+order to make it more maintainable.  For instance, I don't care about branding
+or icons.  I don't want to have to maintain that.
 
 This is also only the client/server engine.  It doesn't include any of the
-OA assets.
+OA assets.  Unlike OA 0.8.5, this tracks the latest ioquake3 changes.
 
 Additions:
 ----------
