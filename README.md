@@ -1,5 +1,12 @@
-Undeadzy's version of OpenArena
-===============================
+This project is deprecated.  I have a new project that tracsk OpenArena 0.8.8
+called openarena_engine.  You should use that as OA 0.8.8 was released.
+
+This client never had all of the changes.  The openarena_engine project has
+all of the 0.8.8 client/server changes.
+
+
+Undeadzy's version of OpenArena 0.8.5
+=====================================
 
 This is ioquake3 with Open Arena modifications for OA 0.8.5.
 
